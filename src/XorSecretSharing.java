@@ -20,10 +20,17 @@ import java.util.Random;
  */
 public class XorSecretSharing {
 
+    private int n;
+    private Random rng;
+
     public XorSecretSharing(int n) {
         assert (n >= 2);
         this.n = n;
         this.rng = new SecureRandom();
+    }
+
+    public int getN() {
+        return n;
     }
 
     /**
@@ -57,10 +64,9 @@ public class XorSecretSharing {
     }
 
     /**
-     * Recombines the given shares into the secret.
+     * Aufgabe 1a)
      *
      * @param shares The complete set of n shares for this secret.
-     *
      * @return The reconstructed secret.
      */
     public byte[] combine(final byte[][] shares) {
@@ -109,7 +115,7 @@ public class XorSecretSharing {
     }
 
     /**
-     * Reconstructs a file from n share files F-1, F-2, ..., F-n. (Aufgabe 1b)
+     * Aufgabe 1b)
      *
      * @param shareFiles Array of share files.
      * @param outputFile The destination file for the reconstructed content.
@@ -128,11 +134,4 @@ public class XorSecretSharing {
         Files.write(outputFile.toPath(), reconstructed);
     }
 
-    private int n;
-
-    public int getN() {
-        return n;
-    }
-
-    private Random rng;
 }
