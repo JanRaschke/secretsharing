@@ -24,10 +24,10 @@ public class ShamirSecretSharing {
 	 * t.
 	 * 
 	 * @param t
-	 *            threshold: any subset of t <= i <= n shares can recover the
-	 *            secret.
+	 *          threshold: any subset of t <= i <= n shares can recover the
+	 *          secret.
 	 * @param n
-	 *            number of shares to use. Needs to fulfill n >= 2.
+	 *          number of shares to use. Needs to fulfill n >= 2.
 	 */
 	public ShamirSecretSharing(int t, int n) {
 		assert (t >= 2);
@@ -46,15 +46,34 @@ public class ShamirSecretSharing {
 	 * Shares the secret into n parts.
 	 * 
 	 * @param secret
-	 *            The secret to share.
+	 *               The secret to share.
 	 * 
 	 * @return An array of the n shares.
 	 */
 	public ShamirShare[] share(BigInteger secret) {
 
 		// TODO: implement this
+		BigInteger[] a = new BigInteger[t];
+		a[0] = secret;
+		for (int i = 1; i < t; i++) {
+			BigInteger koeffizient;
+			do {
+				koeffizient = new BigInteger(this.p.bitLength(), rng);
+			} while (koeffizient.equals(BigInteger.ZERO));
+			a[i] = koeffizient;
+		}
 
-		return null;
+		ShamirShare[] shares = new ShamirShare[n];
+		// s_i Share berechnen
+		for (int i = 0; i < n; i++) {
+			BigInteger x = BigInteger.valueOf(i + 1); // Start bei 1
+			// Koords mit Horner Schema ausrechnen
+			BigInteger y = horner(x, a);
+			// Share s_i erzeugen
+			shares[i] = new ShamirShare(x, y);
+		}
+
+		return shares;
 	}
 
 	/**
@@ -62,23 +81,30 @@ public class ShamirSecretSharing {
 	 * point x using Horner's rule.
 	 * 
 	 * @param x
-	 *            point at which to evaluate the polynomial
+	 *          point at which to evaluate the polynomial
 	 * @param a
-	 *            array of coefficients
+	 *          array of coefficients
 	 * @return value of the polynomial at point x
 	 */
 	private BigInteger horner(BigInteger x, BigInteger[] a) {
 
 		// TODO: implement this
+		// Horner Schema, Polynom ausklammern
+		// Start bei höchsten Koeffizienten und rückwärts rechnen
 
-		return null;
+		BigInteger result = a[a.length - 1];
+		for (int i = a.length - 2; i >= 0; i--) {
+			result = result.multiply(x).add(a[i]).mod(p);
+		}
+
+		return result;
 	}
 
 	/**
 	 * Recombines the given shares into the secret.
 	 * 
 	 * @param shares
-	 *            A set of at least t out of the n shares for this secret.
+	 *               A set of at least t out of the n shares for this secret.
 	 * 
 	 * @return The reconstructed secret.
 	 */
