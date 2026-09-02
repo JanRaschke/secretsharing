@@ -53,8 +53,9 @@ public class ShamirSecretSharing {
 	public ShamirShare[] share(BigInteger secret) {
 
 		// TODO: implement this
+		// Polynom aufstellen
 		BigInteger[] a = new BigInteger[t];
-		a[0] = secret;
+		a[0] = secret; // a[0] s = f(0)
 		for (int i = 1; i < t; i++) {
 			BigInteger koeffizient;
 			do {
