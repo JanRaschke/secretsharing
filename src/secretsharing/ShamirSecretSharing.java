@@ -56,11 +56,11 @@ public class ShamirSecretSharing {
 		// Polynom aufstellen
 		BigInteger[] a = new BigInteger[t];
 		a[0] = secret; // a[0] s = f(0)
-		for (int i = 1; i < t; i++) {
+		for (int i = 1; i < t; i++) { // Random Zahlen berechnen für Koeff Bitlänge p
 			BigInteger koeffizient;
 			do {
 				koeffizient = new BigInteger(this.p.bitLength(), rng);
-			} while (koeffizient.equals(BigInteger.ZERO));
+			} while (koeffizient.compareTo(this.p) >= 0); // Bedingung sicherstellen sonst wiederholen
 			a[i] = koeffizient;
 		}
 
