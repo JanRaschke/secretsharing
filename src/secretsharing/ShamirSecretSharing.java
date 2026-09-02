@@ -113,7 +113,33 @@ public class ShamirSecretSharing {
 
 		// TODO: implement this
 
-		return null;
+		int k = shares.length; // K-Shares
+		BigInteger secret = BigInteger.ZERO;
+
+		for (int i = 0; i < k; i++) { // Summe K-Shared
+			BigInteger x_i = shares[i].x;
+			BigInteger y_i = shares[i].s;
+
+			BigInteger prod_i = BigInteger.ONE; // Produkt über x_i und j
+			for (int j = 0; j < k; j++) {
+				if (i == j) {
+					continue;
+				}
+				BigInteger x_j = shares[j].x;
+				BigInteger zaehler = x_j.negate().mod(p);
+				BigInteger nenner = x_i.subtract(x_j).mod(p);
+
+				// LaGrange Division mit Inv
+				BigInteger division = zaehler.multiply(nenner.modInverse(p));
+				prod_i = prod_i.multiply(division).mod(p);
+			}
+			// Multiplikation mit y_i
+			BigInteger term = y_i.multiply(prod_i).mod(p);
+			secret = secret.add(term).mod(p); // Gesamtsumme
+
+		}
+
+		return secret;
 	}
 
 	public int maxSecretLength() {
