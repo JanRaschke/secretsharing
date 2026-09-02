@@ -5,17 +5,17 @@ import java.security.SecureRandom;
 
 /**
  * This class implements Shamir's (t,n) secret sharing.
- * 
+ *
  * Secrets are represented as BigInteger objects, shares as ShamirShare objects.
- * 
+ *
  * Randomness is taken from a {@link java.security.SecureRandom} object.
- * 
+ *
  * @see ShamirShare
  * @see BigInteger
  * @see SecureRandom
- * 
+ *
  * @author elmar
- * 
+ *
  */
 public class ShamirSecretSharing {
 
