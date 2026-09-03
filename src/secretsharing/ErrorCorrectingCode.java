@@ -1,3 +1,5 @@
+package secretsharing;
+
 import com.google.zxing.common.reedsolomon.GenericGF;
 import com.google.zxing.common.reedsolomon.ReedSolomonEncoder;
 import com.google.zxing.common.reedsolomon.ReedSolomonDecoder;
@@ -9,7 +11,7 @@ public class ErrorCorrectingCode {
 
     public static int[] encode(byte[] data, int maxErrors) {
         // TODO
-        return codeword;
+        return null;
     }
 
     public static byte[] decode(int[] encodedData, int maxErrors) {
