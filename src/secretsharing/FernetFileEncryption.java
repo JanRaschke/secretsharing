@@ -50,11 +50,24 @@ public class FernetFileEncryption {
      */
     public static File decrypt(File encFile, Key key) throws IOException {
         // TODO
-        return null;
+        String tokenString = Files.readString(encFile.toPath()); // Token aus Datei einlesen
+        BytesValidator validator = new BytesValidator() {
+        };// Bytes statt Strings benutzen
+        Token token = Token.fromString(tokenString);// Text zu Token
+        byte[] decryptedData = token.validateAndDecrypt(key, validator);// Entschlüsseln
+        File decFile = new File(encFile.getPath() + ".dec");
+        Files.write(decFile.toPath(), decryptedData);// Entschlüsselte Bytes in Datei schreiben
+        return decFile;
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         // TODO
+        File file = new File("test.txt");
+        Files.writeString(file.toPath(), "Geheimer Text");
+        Key key = generateKey();
+        File enc = encrypt(file, key);
+        File dec = decrypt(enc, key);
+        boolean match = Arrays.equals(Files.readAllBytes(file.toPath()), Files.readAllBytes(dec.toPath()));
+        System.out.println("Test erfolgreich: " + match);
     }
-
 }
