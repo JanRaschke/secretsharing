@@ -34,7 +34,11 @@ public class FernetFileEncryption {
      */
     public static File encrypt(File inputFile, Key key) throws IOException {
         // TODO
-        return null;
+        byte[] data = Files.readAllBytes(inputFile.toPath()); // File als Bytes einlesen
+        Token token = Token.generate(rng, key, data); // mit Fernet Verschlüsseln
+        File encFile = new File(inputFile.getPath() + ".enc"); // neue Datei erzeugen
+        Files.writeString(encFile.toPath(), token.serialise()); // versclüsselte Token als String in Datei
+        return encFile;
     }
 
     /**
