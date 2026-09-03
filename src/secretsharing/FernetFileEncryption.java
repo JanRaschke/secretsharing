@@ -11,7 +11,7 @@ import java.util.Arrays;
 
 public class FernetFileEncryption {
 
-    private static final SecureRandom rng = new SecureRandom();
+    private static SecureRandom rng = new SecureRandom();
 
     /**
      * Erzeugt einen zufälligen 256-Bit (32-Byte) Fernet-Schlüssel
@@ -20,7 +20,9 @@ public class FernetFileEncryption {
      */
     public static Key generateKey() {
         // TODO
-        return null;
+        byte[] bytes = new byte[32]; // 256 Bit Key
+        rng.nextBytes(bytes); // Array füllen mit Random Werten
+        return new Key(bytes);
     }
 
     /**
